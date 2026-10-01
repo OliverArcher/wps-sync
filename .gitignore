@@ -1,0 +1,33 @@
+# ---------------- 依赖与构建产物 ----------------
+node_modules/
+app/dist/
+pack/
+*.tgz
+
+# ---------------- 本机运行期数据：绝对不要提交 ----------------
+# data/ 里有登录会话（auth.json）、约 2 万条真实文件路径的快照（state.json，
+# 可达数十 MB）、删除台账与各类 trace / log —— 属于本机私有数据。
+config.json
+data/
+.runtime/
+.devdata/
+tmp/
+*.log
+
+# ---------------- 第三方二进制（体积原因，请按 README 自行获取）----------------
+tools/*.exe
+
+# ---------------- 仅供本地参考，不随仓库分发 ----------------
+microsoft-ui-xaml-winui3-release-2.5.1/
+wps-cloud-src/
+wps-cloud-src.zip
+PLAN.md
+.backup/
+.workbuddy/
+
+# ---------------- 编辑器 / 系统 ----------------
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+*.swp

@@ -1,0 +1,43 @@
+{
+  "davPort": 8386,
+  "driveId": "",
+  "defaultMaxUploadMB": 50,
+  "syncMode": "size-only",
+  "sync": {
+    "concurrency": 4,
+    "maxQps": 8,
+    "listCount": 2000,
+    "cloudPullMaxFiles": 300,
+    "cloudPullMaxMB": 2048,
+    "cloudCheckOnStartup": true,
+    "followRename": true,
+    "ignoreOldFiles": false
+  },
+  "cloudPull": {
+    "enabled": false,
+    "intervalMin": 30
+  },
+  "pairs": [
+    {
+      "name": "我的文档",
+      "enabled": true,
+      "localDir": "D:/YourLocalFolder",
+      "cloudPath": "YourCloudFolder"
+    }
+  ],
+  "exclude": [
+    "~$*",
+    "*.tmp",
+    "*.bak",
+    "*.dwl",
+    "*.dwl2",
+    "desktop.ini",
+    "*.cdc",
+    "*.lnk",
+    ".DS_Store",
+    "Thumbs.db",
+    ".sync_temp_dir",
+    "*.sqlite*"
+  ],
+  "logFile": "data/sync.log"
+}

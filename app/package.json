@@ -1,0 +1,23 @@
+{
+  "name": "wps-sync-ui",
+  "version": "0.2.0",
+  "private": true,
+  "description": "wps-sync 桌面外壳（Electron + Fluent UI React v9，仅浅色模式）",
+  "main": "src/main.cjs",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "start": "node start.cjs"
+  },
+  "dependencies": {
+    "@fluentui/react-components": "^9.56.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.2.0",
+    "electron-builder": "^26.15.3",
+    "vite": "^5.4.11"
+  }
+}

@@ -1,0 +1,57 @@
+# electron-builder 打包配置（独立文件，避免与 npm 修改 package.json 冲突）
+#
+# 产物：单个 portable exe（免安装，双击即用）
+# 数据位置：
+#   - 引擎代码 → resources/engine（不能进 asar，同步要 spawn 子进程直接跑 src/sync2.mjs）
+#   - 可变数据 → %APPDATA%/wps-sync（config.json、data/state.json 等，程序目录只读）
+#   - 登录状态 → 打包时带上 data/auth.json，首次运行复制到 %APPDATA%
+appId: cn.wps-sync.desktop
+productName: wps-sync
+
+directories:
+  output: ../pack
+
+# 打进 asar 的只有 UI 构建产物与主进程代码
+files:
+  - dist/**/*
+  - src/main.cjs
+  - src/preload.cjs
+  - package.json
+  - '!node_modules/**/*'   # React/Fluent 已编译进 dist，不需要再带一份
+
+# 引擎与登录状态：放在 asar 之外的真实文件里
+# 注意：程序结构固定为 <程序根>/resources/engine/，daemon.mjs 靠「HERE 的上两级」
+# 反推程序根来找 config.json 与 data/，改动这里的 to: 路径会让守护找不到数据目录。
+extraResources:
+  - from: ../src
+    to: engine/src
+  - from: ../icons
+    to: engine/icons
+  - from: ../daemon.mjs
+    to: engine/daemon.mjs
+  - from: ../cloudpull.vbs
+    to: engine/cloudpull.vbs
+  - from: ../config.json
+    to: engine/config.json
+  - from: ../data/auth.json
+    to: engine/data/auth.json
+
+# 计划任务安装脚本必须放在 exe 旁边：ps1 用 $PSScriptRoot 定位
+# resources\engine\cloudpull.vbs，cmd 也按同目录找 ps1。
+extraFiles:
+  - from: ../install-cloudpull-task.cmd
+    to: .
+  - from: ../install-cloudpull-task.ps1
+    to: .
+
+win:
+  # 为什么不打 portable 单文件：它每次运行都要把自身解压到 %TEMP%\<随机目录>，
+  # 开第二个实例时会抢同一个解压目录，第二个直接卡在启动器里 —— 连 JS 都没执行到，
+  # 单实例锁形同虚设（实测：诊断日志里只有第一个实例的记录）。
+  # 所以产出「绿色版目录」，由部署脚本打包成 zip：解压即用、启动更快、单实例有效。
+  target:
+    - target: dir
+      arch:
+        - x64
+
+compression: normal

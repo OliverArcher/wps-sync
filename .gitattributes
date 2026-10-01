@@ -1,0 +1,17 @@
+* text=auto eol=lf
+
+# wscript.exe 按 ANSI 代码页（简体中文 = GBK）读 .vbs，且不认「无 BOM 的 UTF-8」。
+# 文件里一旦出现非 ASCII 字节（比如中文注释），字节流就会错位，
+# 最终在一行看着完全正常的代码上报 800A0005「无效的过程调用或参数」，
+# 报的行号还经常是空行，极难排查。
+#   → cloudpull.vbs 必须保持「纯 ASCII + CRLF」，这里用属性把它钉死，
+#     避免有人用自动转换行尾的编辑器或 core.autocrlf 把它改成 LF。
+*.vbs  text eol=crlf
+*.cmd  text eol=crlf
+*.bat  text eol=crlf
+*.ps1  text eol=crlf
+
+# 二进制
+*.exe  binary
+*.png  binary
+*.zip  binary
