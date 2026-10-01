@@ -285,6 +285,15 @@ npx electron-builder --win --dir      # 产出 pack/win-unpacked
 wps-sync-0.2.0-win-x64.zip
 ```
 
+> ⚠️ **对外发包前先确认两件事**，否则会把本机隐私一起打进去：
+>
+> 1. 根目录的 `config.json` 会被当作**默认配置模板**打进 `resources/engine/config.json`。
+>    要出发布包，先 `cp config.example.json config.json` 再打包。
+> 2. `data/auth.json` 是**登录会话**。它存在时打出的包是"免登录"的（方便自己部署），
+>    但对外发布时等于把自己的会话一起发出去 —— 打包前移走该文件，
+>    或删掉 `electron-builder.yml` 里对应的 `extraResources` 条目。
+>    （该文件不存在时 electron-builder 只会给一条 warning，不会中断构建。）
+
 国内网络下可加镜像环境变量加速：
 
 ```bash
